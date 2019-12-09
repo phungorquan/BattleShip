@@ -8,3 +8,13 @@ We use two Nuvoton boards (Numaker) to remake BattleShip game.
 
 # Operating
 + Run on FreeRTOS (but it can not receive data now)
+
+# Soft
++ Keil C V5.17
++ Proteus 8.6
++ WireShark (Check packet)
++ Hercules (Receive and Send packet)
+
+# Protocol
++ UDP
+

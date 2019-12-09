@@ -1,0 +1,14 @@
+--cpu Cortex-M0
+".\objects\main.o"
+".\objects\battlemap.o"
+".\objects\lcdst7920.o"
+".\objects\clk.o"
+".\objects\gpio.o"
+".\objects\sys.o"
+".\objects\retarget.o"
+".\objects\startup_nuc131.o"
+".\objects\system_nuc131.o"
+--strict --scatter ".\Objects\BattleShip.sct"
+--summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list ".\Listings\BattleShip.map" -o .\Objects\BattleShip.axf
