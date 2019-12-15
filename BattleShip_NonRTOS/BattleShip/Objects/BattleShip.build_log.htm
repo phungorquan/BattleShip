@@ -21,13 +21,35 @@ Target DLL:      NULink\Nu_Link.dll V2.00
 Dialog DLL:      TARMCM1.DLL V1.9.0.0
  
 <h2>Project:</h2>
-E:\1DATA\Slide\HK7\LTNCB\NUMAKER\BattleShip\BattleShip.uvprojx
+E:\GitDesktop\Clone\BattleShip\BattleShip_NonRTOS\BattleShip\BattleShip.uvprojx
 Project File Date:  12/08/2019
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 1 (build 61)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
-Build target 'Target 1'
+Rebuild target 'Target 1'
+compiling clk.c...
+"no source": Error:  #5: cannot open source input file "..\NUC131BSP_v3.00.003\Library\StdDriver\src\clk.c": No such file or directory
+..\NUC131BSP_v3.00.003\Library\StdDriver\src\clk.c: 0 warnings, 1 error
+compiling gpio.c...
+"no source": Error:  #5: cannot open source input file "..\NUC131BSP_v3.00.003\Library\StdDriver\src\gpio.c": No such file or directory
+..\NUC131BSP_v3.00.003\Library\StdDriver\src\gpio.c: 0 warnings, 1 error
+compiling sys.c...
+"no source": Error:  #5: cannot open source input file "..\NUC131BSP_v3.00.003\Library\StdDriver\src\sys.c": No such file or directory
+..\NUC131BSP_v3.00.003\Library\StdDriver\src\sys.c: 0 warnings, 1 error
+compiling uart.c...
+"no source": Error:  #5: cannot open source input file "..\NUC131BSP_v3.00.003\Library\StdDriver\src\uart.c": No such file or directory
+..\NUC131BSP_v3.00.003\Library\StdDriver\src\uart.c: 0 warnings, 1 error
+compiling spi.c...
+"no source": Error:  #5: cannot open source input file "..\NUC131BSP_v3.00.003\Library\StdDriver\src\spi.c": No such file or directory
+..\NUC131BSP_v3.00.003\Library\StdDriver\src\spi.c: 0 warnings, 1 error
 compiling main.c...
+compiling LCDST7920.c...
+compiling BattleMap.c...
+compiling ip_arp_udp_tcp.c...
+compiling ENC28J60.C...
+assembling startup_NUC131.s...
+compiling retarget.c...
+compiling system_NUC131.c...
 linking...
 .\Objects\BattleShip.axf: Warning: L6305W: Image does not have an entry point. (Not specified or not set due to multiple choices.)
 Program Size: Code=12464 RO-data=324 RW-data=1276 ZI-data=1324  
@@ -49,7 +71,7 @@ Package Vendor: Nuvoton
    * Component: Startup Version: 0.00.001
 
 <h2>Collection of Component include folders:</h2>
-  E:\1DATA\Slide\HK7\LTNCB\NUMAKER\BattleShip\RTE
+  E:\GitDesktop\Clone\BattleShip\BattleShip_NonRTOS\BattleShip\RTE
   C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include
   C:\Keil_v5\ARM\PACK\Nuvoton\NuMicro_DFP\1.3.2\Device\NUC131\Include
   C:\Keil_v5\ARM\PACK\Nuvoton\NuMicro_DFP\1.3.2\Device\NUC131\StdDriver\inc
@@ -59,11 +81,11 @@ Package Vendor: Nuvoton
    * Component: ARM::CMSIS:CORE:5.1.2
 
    * Component: Nuvoton::Device:Startup:0.00.001
-      Source file:   Device\NUC131\Source\system_NUC131.c
-      Source file:   Device\NUC131\StdDriver\src\retarget.c
       Include file:  Device\NUC131\Include\NUC131.h
+      Source file:   Device\NUC131\Source\system_NUC131.c
       Source file:   Device\NUC131\Source\ARM\startup_NUC131.s
-Build Time Elapsed:  00:00:02
+      Source file:   Device\NUC131\StdDriver\src\retarget.c
+Build Time Elapsed:  00:00:12
 </pre>
 </body>
 </html>

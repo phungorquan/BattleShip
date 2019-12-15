@@ -1,0 +1,112 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: µVision V5.17.0.0
+Copyright (C) 2015 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: Xiu Xiu, Xiu, LIC=CZLRA-1HRBN-CW32K-Z69G3-AQN60-K40NI
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Standard  Version: 5.17
+Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 1 (build 61)
+Assembler:       Armasm.exe V5.06 update 1 (build 61)
+Linker/Locator:  ArmLink.exe V5.06 update 1 (build 61)
+Library Manager: ArmAr.exe V5.06 update 1 (build 61)
+Hex Converter:   FromElf.exe V5.06 update 1 (build 61)
+CPU DLL:         SARMCM3.DLL V5.17
+Dialog DLL:      DARMCM1.DLL V1.12.0.0
+Target DLL:      NULink\Nu_Link.dll V2.00
+Dialog DLL:      TARMCM1.DLL V1.9.0.0
+ 
+<h2>Project:</h2>
+E:\1DATA\Slide\HK7\LTNCB\NUMAKER\BattleShip_RTOS\BattleShip_RTOS.uvprojx
+Project File Date:  12/15/2019
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 update 1 (build 61)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
+Rebuild target 'Target 1'
+compiling timers.c...
+compiling heap_1.c...
+compiling port.c...
+compiling croutine.c...
+compiling event_groups.c...
+compiling list.c...
+compiling queue.c...
+compiling tasks.c...
+compiling gpio.c...
+compiling clk.c...
+compiling spi.c...
+compiling timer.c...
+compiling sys.c...
+compiling main.c...
+main.c(553): warning:  #111-D: statement is unreachable
+  			return 0;
+main.c(497): warning:  #177-D: variable "step_1" was declared but never referenced
+  		bool step_1 = true;
+main.c(498): warning:  #177-D: variable "step_2" was declared but never referenced
+  		bool step_2 = true;
+main.c(499): warning:  #177-D: variable "step_3" was declared but never referenced
+  		bool step_3 = true;
+main.c(500): warning:  #177-D: variable "step_4" was declared but never referenced
+  		bool step_4 = true;
+main.c(501): warning:  #177-D: variable "step_5" was declared but never referenced
+  		bool step_5 = true;
+main.c(502): warning:  #177-D: variable "x" was declared but never referenced
+  		int x = 0;
+main.c(503): warning:  #177-D: variable "y" was declared but never referenced
+  		int y = 0;
+main.c(607): warning:  #186-D: pointless comparison of unsigned integer with zero
+  				if(x < 0)
+main.c(617): warning:  #186-D: pointless comparison of unsigned integer with zero
+  				if(y < 0)
+main.c(779): warning:  #1-D: last line of file ends without a newline
+  }
+main.c: 11 warnings, 0 errors
+compiling ip_arp_udp_tcp.c...
+compiling ENC28J60.C...
+compiling BattleMap.c...
+compiling LCDST7920.c...
+assembling startup_NUC131.s...
+compiling retarget.c...
+compiling system_NUC131.c...
+linking...
+.\Objects\FreeRTOS.axf: Warning: L6305W: Image does not have an entry point. (Not specified or not set due to multiple choices.)
+Program Size: Code=16488 RO-data=384 RW-data=1368 ZI-data=5528  
+Finished: 0 information, 1 warning and 0 error messages.
+".\Objects\FreeRTOS.axf" - 0 Error(s), 12 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: ARM
+                http://www.keil.com/pack/ARM.CMSIS.5.4.0.pack
+                ARM::CMSIS:CORE:5.1.2
+                CMSIS (Cortex Microcontroller Software Interface Standard)
+   * Component: CORE Version: 5.1.2
+
+Package Vendor: Nuvoton
+                http://www.nuvoton.com/hq/enu/Documents/KEILSoftwarePack/Nuvoton.NuMicro_DFP.1.3.2.pack
+                Nuvoton::Device:Startup:0.00.001
+                Nuvoton ARM Cortex-M NuMicro Family Device Support
+   * Component: Startup Version: 0.00.001
+
+<h2>Collection of Component include folders:</h2>
+  E:\1DATA\Slide\HK7\LTNCB\NUMAKER\BattleShip_RTOS\RTE
+  C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include
+  C:\Keil_v5\ARM\PACK\Nuvoton\NuMicro_DFP\1.3.2\Device\NUC131\Include
+  C:\Keil_v5\ARM\PACK\Nuvoton\NuMicro_DFP\1.3.2\Device\NUC131\StdDriver\inc
+
+<h2>Collection of Component Files used:</h2>
+
+   * Component: ARM::CMSIS:CORE:5.1.2
+
+   * Component: Nuvoton::Device:Startup:0.00.001
+      Include file:  Device\NUC131\Include\NUC131.h
+      Source file:   Device\NUC131\StdDriver\src\retarget.c
+      Source file:   Device\NUC131\Source\system_NUC131.c
+      Source file:   Device\NUC131\Source\ARM\startup_NUC131.s
+Build Time Elapsed:  00:00:15
+</pre>
+</body>
+</html>
