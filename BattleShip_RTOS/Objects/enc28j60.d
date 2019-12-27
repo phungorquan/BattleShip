@@ -23,5 +23,4 @@
 .\objects\enc28j60.o: C:\Keil_v5\ARM\PACK\Nuvoton\NuMicro_DFP\1.3.2\Device\NUC131\StdDriver\inc\WWDT.h
 .\objects\enc28j60.o: C:\Keil_v5\ARM\PACK\Nuvoton\NuMicro_DFP\1.3.2\Device\NUC131\StdDriver\inc\UART.h
 .\objects\enc28j60.o: C:\Keil_v5\ARM\PACK\Nuvoton\NuMicro_DFP\1.3.2\Device\NUC131\StdDriver\inc\CLK.h
-.\objects\enc28j60.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\objects\enc28j60.o: LCDST7920.h

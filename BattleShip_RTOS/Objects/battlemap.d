@@ -23,5 +23,6 @@
 .\objects\battlemap.o: C:\Keil_v5\ARM\PACK\Nuvoton\NuMicro_DFP\1.3.2\Device\NUC131\StdDriver\inc\UART.h
 .\objects\battlemap.o: C:\Keil_v5\ARM\PACK\Nuvoton\NuMicro_DFP\1.3.2\Device\NUC131\StdDriver\inc\CLK.h
 .\objects\battlemap.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\battlemap.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\objects\battlemap.o: LCDST7920.h
 .\objects\battlemap.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
