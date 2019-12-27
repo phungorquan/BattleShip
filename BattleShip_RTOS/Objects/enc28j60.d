@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .\objects\enc28j60.o: ENC28J60.C
 .\objects\enc28j60.o: ENC28J60.H
 .\objects\enc28j60.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
@@ -24,3 +25,31 @@
 .\objects\enc28j60.o: C:\Keil_v5\ARM\PACK\Nuvoton\NuMicro_DFP\1.3.2\Device\NUC131\StdDriver\inc\UART.h
 .\objects\enc28j60.o: C:\Keil_v5\ARM\PACK\Nuvoton\NuMicro_DFP\1.3.2\Device\NUC131\StdDriver\inc\CLK.h
 .\objects\enc28j60.o: LCDST7920.h
+=======
+.\objects\enc28j60.o: ENC28J60.C
+.\objects\enc28j60.o: ENC28J60.H
+.\objects\enc28j60.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\enc28j60.o: ..\NUC131BSP_v3.00.003\Library\Device\Nuvoton\NUC131\Include\NUC131.h
+.\objects\enc28j60.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include\core_cm0.h
+.\objects\enc28j60.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\enc28j60.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include\cmsis_version.h
+.\objects\enc28j60.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include\cmsis_compiler.h
+.\objects\enc28j60.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include\cmsis_armcc.h
+.\objects\enc28j60.o: ..\NUC131BSP_v3.00.003\Library\Device\Nuvoton\NUC131\Include\system_NUC131.h
+.\objects\enc28j60.o: C:\Keil_v5\ARM\PACK\Nuvoton\NuMicro_DFP\1.3.2\Device\NUC131\StdDriver\inc\SYS.h
+.\objects\enc28j60.o: C:\Keil_v5\ARM\PACK\Nuvoton\NuMicro_DFP\1.3.2\Device\NUC131\StdDriver\inc\ADC.h
+.\objects\enc28j60.o: ..\NUC131BSP_v3.00.003\Library\Device\Nuvoton\NUC131\Include\NUC131.h
+.\objects\enc28j60.o: C:\Keil_v5\ARM\PACK\Nuvoton\NuMicro_DFP\1.3.2\Device\NUC131\StdDriver\inc\CAN.h
+.\objects\enc28j60.o: C:\Keil_v5\ARM\PACK\Nuvoton\NuMicro_DFP\1.3.2\Device\NUC131\StdDriver\inc\FMC.h
+.\objects\enc28j60.o: C:\Keil_v5\ARM\PACK\Nuvoton\NuMicro_DFP\1.3.2\Device\NUC131\StdDriver\inc\GPIO.h
+.\objects\enc28j60.o: C:\Keil_v5\ARM\PACK\Nuvoton\NuMicro_DFP\1.3.2\Device\NUC131\StdDriver\inc\I2C.h
+.\objects\enc28j60.o: C:\Keil_v5\ARM\PACK\Nuvoton\NuMicro_DFP\1.3.2\Device\NUC131\StdDriver\inc\PWM.h
+.\objects\enc28j60.o: C:\Keil_v5\ARM\PACK\Nuvoton\NuMicro_DFP\1.3.2\Device\NUC131\StdDriver\inc\BPWM.h
+.\objects\enc28j60.o: C:\Keil_v5\ARM\PACK\Nuvoton\NuMicro_DFP\1.3.2\Device\NUC131\StdDriver\inc\SPI.h
+.\objects\enc28j60.o: C:\Keil_v5\ARM\PACK\Nuvoton\NuMicro_DFP\1.3.2\Device\NUC131\StdDriver\inc\TIMER.h
+.\objects\enc28j60.o: C:\Keil_v5\ARM\PACK\Nuvoton\NuMicro_DFP\1.3.2\Device\NUC131\StdDriver\inc\WDT.h
+.\objects\enc28j60.o: C:\Keil_v5\ARM\PACK\Nuvoton\NuMicro_DFP\1.3.2\Device\NUC131\StdDriver\inc\WWDT.h
+.\objects\enc28j60.o: C:\Keil_v5\ARM\PACK\Nuvoton\NuMicro_DFP\1.3.2\Device\NUC131\StdDriver\inc\UART.h
+.\objects\enc28j60.o: C:\Keil_v5\ARM\PACK\Nuvoton\NuMicro_DFP\1.3.2\Device\NUC131\StdDriver\inc\CLK.h
+.\objects\enc28j60.o: LCDST7920.h
+>>>>>>> b2045f07623b880bfb872f41e733df0abf5c3f9a

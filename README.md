@@ -6,8 +6,8 @@ We use two Nuvoton boards (Numaker) to remake BattleShip game.
 + LCD: ST7920 (128x64)
 + Ethernet: ENC28J60
 
-# Operating
-+ Run on FreeRTOS (but it can not receive data now)
+# Operating System
++ FreeRTOS
 
 # Soft
 + Keil C V5.17
