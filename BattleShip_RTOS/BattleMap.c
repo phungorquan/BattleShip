@@ -627,7 +627,7 @@ void Destroy_Enemy_Ship_XY(uint8_t x_coor, uint8_t y_coor)
 			Display_Graphic(BattleMap);
 }
 
-void Select_XY_Number(uint8_t x, uint8_t y)
+void Display_Select_XY_Number(uint8_t x, uint8_t y)
 {
 	uint8_t X[6];
 	uint8_t Y[6];
@@ -690,4 +690,41 @@ void Select_XY_Number(uint8_t x, uint8_t y)
 			
 }
 
-
+void Display_Turn(bool myturn)
+{
+	if(myturn == false)
+		{
+			BattleMap[5] = 0xEA;
+			BattleMap[6] = 0x6E;
+			BattleMap[21] = 0x4A;
+			BattleMap[22] = 0x8A;
+			BattleMap[37] = 0x4E;
+			BattleMap[38] = 0x8A;
+			
+			BattleMap[9] = 0x00;
+			BattleMap[10] = 0x00;
+			BattleMap[25] = 0x00;
+			BattleMap[26] = 0x00;	
+			BattleMap[41] = 0x00;
+			BattleMap[42] = 0x00;
+			
+		}
+	else
+		{
+			BattleMap[9] = 0xEA;
+			BattleMap[10] = 0x6E;
+			BattleMap[25] = 0x4A;
+			BattleMap[26] = 0x8A;		
+			BattleMap[41] = 0x4E;
+			BattleMap[42] = 0x8A;
+			
+			BattleMap[5] = 0x00;
+			BattleMap[6] = 0x00;
+			BattleMap[21] = 0x00;
+			BattleMap[22] = 0x00;	
+			BattleMap[37] = 0x00;
+			BattleMap[38] = 0x00;
+		}
+		
+		Display_Graphic(BattleMap);
+}

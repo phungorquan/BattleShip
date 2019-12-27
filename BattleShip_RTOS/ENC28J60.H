@@ -1,12 +1,5 @@
-//#include "STM32F10X_GPIO.h"
-//#include "stm32f10x.h"
-//#include "SPI.H"
 #include <stdio.h>
 #include "NUC131.h"
-#include "stdbool.h"
-
-//#ifndef __ENC28J60_H
-//#define __ENC28J60_H
 
 //#define SPInet_ReadWrite SPI0_ReadWrite
 // ENC28J60 Control Registers
@@ -247,14 +240,12 @@
 //#define MAX_FRAMELEN     600
 
 
-//#define  ENC28J60_CSL()    PC0 = 0;//(GPIOA->ODR &= ~(1<<4))
-//#define  ENC28J60_CSH()    PC0 = 1;//(GPIOA->ODR |= 1<<4)
+#define  ENC28J60_CSL()    PA14 = 0;
+#define  ENC28J60_CSH()    PA14 = 1;
+#define  ENC28J60_RESETL() PB11 = 0;
+#define  ENC28J60_RESETH() PB11 = 1;
 
-#define  ENC28J60_CSL()    PA14 = 0;//(GPIOA->ODR &= ~(1<<4))
-#define  ENC28J60_CSH()    PA14 = 1;//(GPIOA->ODR |= 1<<4)
 
-
-//void delay(int itime);
 uint8_t enc28j60ReadOp(uint8_t op, uint8_t address);
 void 	enc28j60WriteOp(uint8_t op, uint8_t address, uint8_t data);
 void enc28j60ReadBuffer(uint16_t len, uint8_t* data);
@@ -268,7 +259,7 @@ void enc28j60Init(uint8_t* macaddr);
 uint8_t enc28j60getrev(void);
 void enc28j60PacketSend(uint16_t len, uint8_t* packet);
 uint16_t enc28j60PacketReceive(uint16_t maxlen, uint8_t* packet);
+
 void SPI_WRITE(uint8_t data);
 uint8_t SPI_READ(uint8_t dummydata);
 
-//#endif

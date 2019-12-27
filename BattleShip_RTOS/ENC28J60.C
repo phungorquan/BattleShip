@@ -143,11 +143,16 @@ void enc28j60clkout(uint8_t clk)
 
 void enc28j60Init(uint8_t * macaddr)
 {
-//   unsigned long i;
-
-   // initialize I/O
-   //enc28j60CSinit();
-   ENC28J60_CSH();
+		// Reset ETHERNET
+		ENC28J60_RESETH();
+		delay(1000);
+		ENC28J60_RESETL();
+		delay(1000);
+		ENC28J60_RESETH();
+		delay(1000);
+		
+		//Enable ETHERNET
+		ENC28J60_CSH();
 	
    //enc28j60SetSCK();
    //enc28j60HWreset();

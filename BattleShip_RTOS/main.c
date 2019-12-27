@@ -16,8 +16,10 @@
 #define RIGHTDOWN PA15
 #define OK PB15
 
-//#define Board1
+
+#define Board1
 //#define Board2
+//#define PC_Test
 
 #ifdef Board1
 #define MySrcPort 5001
@@ -31,12 +33,17 @@
 #define DesPort 0x64
 #endif
 
+#ifdef PC_Test
+#define MySrcPort 5001
+#define MyDesPort 0x64
+#define DesPort 5001
+#endif
+
 
 #ifdef Board1
 static uint8_t mymac[6] ={0x00,0x1b,0x77,0x71,0x48,0xf1}; 			//dia chi mac enc28j60
 static uint8_t myip[4] ={192, 168, 0, 116};                    //dia chi IP cua enc28j60
 
-//static uint8_t dis_mac[6] = {0x1C,0x65,0x9D,0x58,0x97,0xF3}; // dia chi mac may tinh // "ipconfig /all" roi tim cai MAC cua card WIfi ay
 static uint8_t dis_mac[6] ={0x00,0x1b,0x77,0x71,0x48,0xf0};		
 static uint8_t dis_ip[4] = {192,168,0,100};                   // IP may tinh
 #endif
@@ -49,22 +56,50 @@ static uint8_t dis_mac[6] ={0x00,0x1b,0x77,0x71,0x48,0xf1};
 static uint8_t dis_ip[4] = {192,168,0,116};                   // IP may tinh
 #endif
 
+#ifdef PC_Test
 static uint8_t mymac[6] ={0x00,0x1b,0x77,0x71,0x48,0xf0}; 			//dia chi mac enc28j60
 static uint8_t myip[4] ={192, 168, 1, 116};                    //dia chi IP cua enc28j60
 
 static uint8_t dis_mac[6] = {0x1C,0x65,0x9D,0x58,0x97,0xF3}; // dia chi mac may tinh // "ipconfig /all" roi tim cai MAC cua card WIfi ay
 static uint8_t dis_ip[4] = {192,168,1,8};                   // IP may tinh
+#endif
 
 static uint8_t sendbuf[100 + 1];
 static uint8_t receivebuf[100 + 1];
 
+volatile short x = 0;
+volatile short y = 0;
+
 bool waiting_state = true;
-bool setup_state = true;
-bool start_state = true;
+bool passstep = true;
 bool My_turn = false;
 uint8_t Num_of_Blocks_To_Finish = 16;
+// Because position in map only from 00 -> 99 , are different from 100 , so i put 100 to compare 
+uint8_t Check_Num_of_Blocks_To_Finish[16] = {100,100,100,100,100,100,
+																						100,100,100,100,100,100,
+																						100,100,100,100};
+short Index_Support_Check_Num_of_Blocks_To_Finish = 0;
+uint8_t Arr_Support_Check_Num_of_Blocks_To_Finish[16];
+
+void vTask1( void *pvParameters );
+void vTask2( void *pvParameters );
+void vTask3( void *pvParameters );
+
+// Handling send waiting when start
+const char *pvTask1  = "Task1 is running.";
+
+// Handling select x,y to SHOOT enemy
+const char *pvTask2  = "Task2 is running.";
+
+// Handling receive and feedback + display
+const char *pvTask3  = "Task3 is running.";
+		
+SemaphoreHandle_t xSemaphore = NULL; // ##############Add this line if use semaphore
+
 
 // 7 Ships (1:1x1 , 3:2x1 , 3:3x1) with 1block is(6x6 pixels)
+
+#ifdef Board1
 uint8_t Ship1_Positions[2]=
 {
 	0,0					// x0y0
@@ -83,6 +118,29 @@ uint8_t Ship3_Positions[18]=
 	6,5, 6,6, 6,7,	// x5y5 x5y6 x5y7
 	5,0, 6,0, 7,0		// x5y2 x6y2 x7y2
 };
+#endif
+
+#ifdef Board2
+uint8_t Ship1_Positions[2]=
+{
+	9,9					// x0y0
+};
+
+uint8_t Ship2_Positions[12]=
+{
+	2,5, 2,6,			// x1y5 x1y6
+	7,7, 7,8,			// x7y7 x7y8
+	1,9, 2,9			// x0y9 x1y9
+};
+
+uint8_t Ship3_Positions[18]=
+{
+	4,3, 4,4, 4,5,	// x3y3 x3y4 x3y5
+	6,3, 7,3, 8,3,	// x5y5 x5y6 x5y7
+	1,0, 2,0, 3,0		// x5y2 x6y2 x7y2
+};
+#endif
+
 
 uint8_t BattleMap[]=
 {
@@ -195,23 +253,6 @@ uint8_t BattleMap[]=
 
 
 
-
-
-
-
-
-
-void vTask1( void *pvParameters );
-void vTask2( void *pvParameters );
-void vTask3( void *pvParameters );
-
-const char *pvTask1  = "Task1 is running.";
-const char *pvTask2  = "Task2 is running.";
-const char *pvTask3  = "Task3 is running.";
-		
-SemaphoreHandle_t xSemaphore = NULL; // ##############Add this line if use semaphore
-
-
 void SYS_Init(void)
 {
     /* Enable Internal RC 22.1184MHz clock */
@@ -303,79 +344,45 @@ void GPIO_Init()
 
 
 
-void Display_Turn(bool myturn)
-{
-	if(myturn == false)
-		{
-			BattleMap[5] = 0xEA;
-			BattleMap[6] = 0x6E;
-			BattleMap[21] = 0x4A;
-			BattleMap[22] = 0x8A;
-			BattleMap[37] = 0x4E;
-			BattleMap[38] = 0x8A;
-			
-			BattleMap[9] = 0x00;
-			BattleMap[10] = 0x00;
-			BattleMap[25] = 0x00;
-			BattleMap[26] = 0x00;	
-			BattleMap[41] = 0x00;
-			BattleMap[42] = 0x00;
-			
-		}
-	else
-		{
-			BattleMap[9] = 0xEA;
-			BattleMap[10] = 0x6E;
-			BattleMap[25] = 0x4A;
-			BattleMap[26] = 0x8A;		
-			BattleMap[41] = 0x4E;
-			BattleMap[42] = 0x8A;
-			
-			BattleMap[5] = 0x00;
-			BattleMap[6] = 0x00;
-			BattleMap[21] = 0x00;
-			BattleMap[22] = 0x00;	
-			BattleMap[37] = 0x00;
-			BattleMap[38] = 0x00;
-		}
-		
-		Display_Graphic(BattleMap);
-}
 
 bool Find_My_Ship_Position(uint8_t pos_x, uint8_t pos_y)
 {
 	unsigned int i = 0;
-	if(pos_x == Ship1_Positions[0])
-		if(pos_y == Ship1_Positions[1])
+	unsigned int j = 0;
+	unsigned int combine_posx_posy_to_decimal = pos_x * 10 + pos_y;
+	for(i = 0 ; i < 16; i++)
+	{
+		if(Check_Num_of_Blocks_To_Finish[i] == combine_posx_posy_to_decimal) // If this is one of ship position
 		{
-			Num_of_Blocks_To_Finish--;
+			for(j = 0 ; j < 16; j++)
+			{
+				if (Arr_Support_Check_Num_of_Blocks_To_Finish[j] == combine_posx_posy_to_decimal) // If this had existed before
+					return true; // return true to display a 'BLOCK' for ENEMY instead of X
+			}
+			 // If had not existed before
+			Num_of_Blocks_To_Finish--; // Counter ship --
+			
+			// Save to Arr Support for condition above
+			Arr_Support_Check_Num_of_Blocks_To_Finish[Index_Support_Check_Num_of_Blocks_To_Finish] = combine_posx_posy_to_decimal;
+			
+			// Point to next element
+			Index_Support_Check_Num_of_Blocks_To_Finish++;
 			return true;
 		}
-	
-	for(i = 0 ; i<= 10 ; i=i+2)
-		{
-			if(pos_x == Ship2_Positions[i])
-				if(pos_y == Ship2_Positions[i+1])
-					{
-						Num_of_Blocks_To_Finish--;
-						return true;
-					}
-		}
-	
-	for(i = 0 ; i<=16 ; i=i+2)
-		{
-			if(pos_x == Ship3_Positions[i])
-				if(pos_y == Ship3_Positions[i+1])
-					{
-						Num_of_Blocks_To_Finish--;
-						return true;
-					}
-		}
-		
+	}
 	return false;
 }
 
-
+bool Support_Avoid_Setup_Ship_Asthesame_Positions(uint8_t pos_x, uint8_t pos_y)
+{
+	unsigned int combine_posx_posy_to_decimal = pos_x * 10 + pos_y;
+	unsigned int i = 0;
+	for(i = 0; i < 16; i++)
+		if(Check_Num_of_Blocks_To_Finish[i] == combine_posx_posy_to_decimal)
+			return false;
+	
+	return true;
+}
 
 void My_UDP_Str_Send(char str[])
 {
@@ -385,94 +392,130 @@ void My_UDP_Str_Send(char str[])
     sendbuf[UDP_DATA_P+i] = str[i];
     i++;
   }
-	send_udp_prepare(sendbuf,5001,dis_ip,5001,dis_mac);	
+	send_udp_prepare(sendbuf,MySrcPort,dis_ip,DesPort,dis_mac);	
 	send_udp_transmit(sendbuf,i);
 }
 
 void Setup_Myship()
 {				
 	uint8_t Ship_Block_Num = 1; // Start setup for Ship 1_1st
-	short x = 0;	// Position from button
-	short y = 0;	// Position from button
-	unsigned int i = 12;	// Array element of SHIP INDICATION  -(1) --(2) ---(3)
-	bool Set_Default_Ships = true;
+	short _x = 0;	// Position from button
+	short _y = 0;	// Position from button
+	unsigned int i = 0;
+	bool Auto_Set_Ships = true;
+	short index_ship2 = 0;
+	short index_ship3 = 0;
 	
+	passstep = false; // Support for ETHERNET RECEIVING below
+	My_UDP_Str_Send("setup");
 	BattleMap[12] = 0x01; // Display SHIP INDICATION 1 
-	Select_XY_Number(x,y); // Display position 0 0 for the first time
+	Display_Select_XY_Number(_x,_y); // Display position 0 0 for the first time
 		
 	while(Ship_Block_Num <= 16)	// 16 block ( Ship1:1block , Ship2: (1block * 2) * 3 , Ship3: (1block * 3) * 3)
 		{
 			if(LEFTUP == 0)		// Increase X by one
 			{
-				Set_Default_Ships = false;
+				Auto_Set_Ships = false;
 				while(LEFTUP == 0){}
-					x++;
+					_x++;
 				
-				if(x == 10)
-					x = 0;
-				Select_XY_Number(x,y);
+				if(_x == 10)
+					_x = 0;
+				Display_Select_XY_Number(_x,_y);
 			}
 			
 			else if(LEFTDOWN == 0)// Decrease X by one
 			{
-				Set_Default_Ships = false;
+				Auto_Set_Ships = false;
 				while(LEFTDOWN == 0){}
-					x--;
+					_x--;
 				
-				if(x < 0)
-					x = 0;
-				Select_XY_Number(x,y);
+				if(_x < 0)
+					_x = 9;
+				Display_Select_XY_Number(_x,_y);
 			}
 			
 			else if(RIGHTUP == 0) // Increase Y by one
 			{
-				Set_Default_Ships = false;
+				Auto_Set_Ships = false;
 				while(RIGHTUP == 0){}
-					y++;
+					_y++;
 				
-				if(y == 10)
-					y = 0;
+				if(_y == 10)
+					_y = 0;
 				
-				Select_XY_Number(x,y);
+				Display_Select_XY_Number(_x,_y);
 			}
 			
 			else if(RIGHTDOWN == 0) // Decrease Y by one
 			{
-				Set_Default_Ships = false;
+				Auto_Set_Ships = false;
 				while(RIGHTDOWN == 0){}
-					y--;
+					_y--;
 				
-				if(y < 0)
-					y = 0;
+				if(_y < 0)
+					_y = 9;
 				
-				Select_XY_Number(x,y);
+				Display_Select_XY_Number(_x,_y);
 			}
 			
-			else if(OK == 0 && Set_Default_Ships == false) // Press OK to setup that position
+			else if(OK == 0 && Auto_Set_Ships == false) // Press OK to setup that position
 			{
-				while(OK == 0){}				
-					Set_My_Ship_XY(x,y);	// Display ship on MAP
-					x = 0;			// Reset position for next ship
-					y = 0;			// Reset position for next ship
-					Ship_Block_Num++;	// Increase to next block of next ship
-					if(Ship_Block_Num < 8) // Ignored SHIP INDICATION 1 because displayed above, 
-						BattleMap[12] = 0x03;	// Display SHIP INDICATION 2
-					else BattleMap[12] = 0x07; // Display SHIP INDICATION 3
-					
-					Select_XY_Number(x,y); // Display position
+				while(OK == 0){}
+					if(Support_Avoid_Setup_Ship_Asthesame_Positions(_x,_y) == true)
+					{
+						Set_My_Ship_XY(_x,_y);	// Display ship on MAP
+						if (Ship_Block_Num < 2)
+						{
+							BattleMap[12] = 0x03; // Display NEXT SHIP INDICATION
+							Ship1_Positions[0] = _x; // Save x position to Ship1
+							Ship1_Positions[1] = _y; // Save y position to Ship1
+							Check_Num_of_Blocks_To_Finish[0] = _x * 10 + _y;
+						}
+						else if(Ship_Block_Num > 1 && Ship_Block_Num < 8)
+						{
+							Ship2_Positions[index_ship2] = _x; // Save x position to Ship1
+							Ship2_Positions[index_ship2 + 1] = _y; // Save y position to Ship1
+							Check_Num_of_Blocks_To_Finish[Ship_Block_Num - 1] = _x * 10 + _y;
+							index_ship2 += 2;
+							if(index_ship2 >= 12)
+								BattleMap[12] = 0x07;	// Display NEXT SHIP INDICATION
+							else BattleMap[12] = 0x03;	// Display SHIP INDICATION 2
+						}
+						else 
+						{
+							BattleMap[12] = 0x07; // Display SHIP INDICATION 3
+							Ship3_Positions[index_ship3] = _x; // Save x position to Ship1
+							Ship3_Positions[index_ship3 + 1] = _y; // Save y position to Ship1
+							Check_Num_of_Blocks_To_Finish[Ship_Block_Num - 1] = _x * 10 + _y;
+							index_ship3 += 2;
+						}
+						Ship_Block_Num++;	// Increase to next block of next ship
+						Display_Select_XY_Number(_x,_y); // Display position selection
+					}
 			}
-			else if(OK == 0 && Set_Default_Ships == true)
+			else if(OK == 0 && Auto_Set_Ships == true)
 			{
-				//Setup Ship1
+				//Setup 1Ship1
 				Set_My_Ship_XY(Ship1_Positions[0],Ship1_Positions[1]);
+				Check_Num_of_Blocks_To_Finish[0] = Ship1_Positions[0] * 10 + Ship1_Positions[1];
 				
 				//Setup 3Ship2
 				for(i=0;i<=10;i=i+2)
-					Set_My_Ship_XY(Ship2_Positions[i],Ship2_Positions[i+1]);
+					{
+						Set_My_Ship_XY(Ship2_Positions[i],Ship2_Positions[i+1]);
+						Check_Num_of_Blocks_To_Finish[Ship_Block_Num] = Ship2_Positions[i] * 10 + Ship2_Positions[i+1];
+						Ship_Block_Num++; //Re-use this value to save RAM
+					}
 				
 				//Setup 3Ship3
 				for(i=0;i<=16;i=i+2)
-					Set_My_Ship_XY(Ship3_Positions[i],Ship3_Positions[i+1]);
+					{
+						Set_My_Ship_XY(Ship3_Positions[i],Ship3_Positions[i+1]);
+						Check_Num_of_Blocks_To_Finish[Ship_Block_Num] = Ship3_Positions[i] * 10 + Ship3_Positions[i+1];
+						Ship_Block_Num++; //Re-use this value to save RAM
+					}
+				
 				
 				break;
 			}
@@ -483,24 +526,13 @@ void Setup_Myship()
 				BattleMap[i] = 0x00;
 		
 			Display_Graphic(BattleMap);
+			
 }
 
 
 
-		uint8_t x = 0;
-		uint8_t y = 0;
 int main(void)
 {		
-		volatile uint16_t plen = 0,payloadlen=0;
-    volatile uint8_t cmd_pos = 0;
-    volatile char cmdval[10];
-		bool step_1 = true;
-		bool step_2 = true;
-		bool step_3 = true;
-		bool step_4 = true;
-		bool step_5 = true;
-		int x = 0;
-		int y = 0;
     /* Unlock protected registers */
     SYS_UnlockReg();
 
@@ -514,29 +546,21 @@ int main(void)
 		SPI_Init();
 		GPIO_Init();
 	
-		// Reset ETHERNET
-		PB11 = 1;
-    delay(1000);
-    PB11 = 0;
-    delay(1000);
-    PB11 = 1;
-    delay(1000);
 		
 		enc28j60Init(mymac);
 		delay(1500);
 		enc28j60PhyWrite(PHLCON, 0x7a4);//0x476);
-   enc28j60clkout(2); // Thay doi clkout 6.25MHz den 12.5MHz
-		
+    enc28j60clkout(2); // Thay doi clkout 6.25MHz den 12.5MHz
 		delay(1500);// giu cham de khi ngat nguon va bat lai khong phai an nut NRST
 	
 		init_ip_arp_udp_tcp(mymac, myip);
-		enc28j60getrev();
+		enc28j60getrev(); // Enable Receive
 	
 		InitLCD_Graphic();	
 		Display_Graphic(BattleMap);	
 		//Setup_Myship();
 		
-		//xTaskCreate( vTask1, "Task 1", configMINIMAL_STACK_SIZE, (void*)pvTask1, 1, NULL );								
+		xTaskCreate( vTask1, "Task 1", configMINIMAL_STACK_SIZE, (void*)pvTask1, 1, NULL );								
 		xTaskCreate( vTask2, "Task 2", configMINIMAL_STACK_SIZE, (void*)pvTask2, 1, NULL );
 		xTaskCreate( vTask3, "Task 3", configMINIMAL_STACK_SIZE, (void*)pvTask3, 1, NULL );
 		
@@ -550,9 +574,10 @@ int main(void)
 		while(1)
 		{
 		}
-			return 0;
+	return 0;
 
 }
+
 
 
 void vTask1( void *pvParameters )
@@ -560,9 +585,12 @@ void vTask1( void *pvParameters )
 		while(1)
 		{
 			xSemaphoreTake(xSemaphore,(TickType_t) portMAX_DELAY);
-			PB13 ^= 1;
+			
+			if(waiting_state == true)
+				My_UDP_Str_Send("waiting");
+			
 			xSemaphoreGive(xSemaphore);
-      vTaskDelay(2000/portTICK_RATE_MS);
+      vTaskDelay(4000/portTICK_RATE_MS);
     }
 }
 
@@ -575,7 +603,7 @@ void vTask2( void *pvParameters )
 			
 			if(My_turn == true)
 			{
-				Select_XY_Number(0,0);
+				Display_Select_XY_Number(x,y);
 				while(My_turn == true)
 			{
 			
@@ -586,7 +614,7 @@ void vTask2( void *pvParameters )
 				
 				if(x == 10)
 					x = 0;
-				Select_XY_Number(x,y);
+				Display_Select_XY_Number(x,y);
 			}
 			
 			else if(RIGHTUP == 0)
@@ -596,7 +624,7 @@ void vTask2( void *pvParameters )
 				
 				if(y == 10)
 					y = 0;
-				Select_XY_Number(x,y);
+				Display_Select_XY_Number(x,y);
 			}
 			
 			else if(LEFTDOWN == 0)
@@ -605,8 +633,8 @@ void vTask2( void *pvParameters )
 					x--;
 				
 				if(x < 0)
-					x = 0;
-				Select_XY_Number(x,y);
+					x = 9;
+				Display_Select_XY_Number(x,y);
 			}
 			
 			else if(RIGHTDOWN == 0)
@@ -615,8 +643,8 @@ void vTask2( void *pvParameters )
 					y--;
 				
 				if(y < 0)
-					y = 0;
-				Select_XY_Number(x,y);
+					y = 9;
+				Display_Select_XY_Number(x,y);
 			}
 			
 			else if(OK == 0)
@@ -626,7 +654,7 @@ void vTask2( void *pvParameters )
 				sendbuf[UDP_DATA_P+1]='H';
 				sendbuf[UDP_DATA_P+2]=x + '0';
 				sendbuf[UDP_DATA_P+3]=y + '0';
-				send_udp_prepare(sendbuf,5001,dis_ip,5001,dis_mac);	
+				send_udp_prepare(sendbuf,MySrcPort,dis_ip,DesPort,dis_mac);	
 				send_udp_transmit(sendbuf,4);
 				Destroy_Enemy_Ship_XY(x,y);
 				My_turn = false;
@@ -635,22 +663,22 @@ void vTask2( void *pvParameters )
 				
 			}
 			}
-			
+
 			xSemaphoreGive(xSemaphore);
-      vTaskDelay(5000/portTICK_RATE_MS);  
+      vTaskDelay(1/portTICK_RATE_MS);  
     }
 } 
 
 void vTask3( void *pvParameters )
 {
-
 		volatile uint16_t plen = 0,payloadlen=0;
     volatile uint8_t cmd_pos = 0;
-    volatile char cmdval[10];
+    volatile char datarev[10];
 		bool step_1 = true;
 		bool step_2 = true;
 		bool step_3 = true;
 		bool step_4 = true;
+	
 		while(1)
 		{
 
@@ -684,33 +712,31 @@ void vTask3( void *pvParameters )
 			
 			if (receivebuf[IP_PROTO_P] == IP_PROTO_UDP_V &&
          receivebuf[UDP_DST_PORT_H_P] == 0 &&
-         receivebuf[UDP_DST_PORT_L_P] == 0x64 && 
+         receivebuf[UDP_DST_PORT_L_P] == MyDesPort && 
 				 step_1 == true && step_2 == true && step_3 == true && step_4 == true)
       {
 				payloadlen = receivebuf[UDP_LEN_L_P] - UDP_HEADER_LEN;
 				 cmd_pos=0;
 				while (cmd_pos < payloadlen)
             {
-							 cmdval[cmd_pos]=receivebuf[UDP_DATA_P + cmd_pos]; 
+							 datarev[cmd_pos]=receivebuf[UDP_DATA_P + cmd_pos]; 
                cmd_pos++;
 						}
 						
-						if(cmdval[0] == 'R')
+						if(datarev[0] == 'R')
 						{
-							if(cmdval[3] == '1')
+							if(datarev[3] == '1')
 								Set_Enemy_Ship_XY(x,y);
-							else if(cmdval[3] == '0')
+							else if(datarev[3] == '0')
 								Destroy_Enemy_Ship_XY(x,y);
-							x=0;
-							y=0;
 							My_turn = false;
 							Display_Turn(My_turn);
 						}
 						
-						else if(cmdval[0] == 'S')
+						else if(datarev[0] == 'S')
 						{
-							volatile uint8_t x_pos_receive = cmdval[2] - '0';
-							volatile uint8_t y_pos_receive = cmdval[3] - '0';
+							uint8_t x_pos_receive = datarev[2] - '0';
+							uint8_t y_pos_receive = datarev[3] - '0';
 							if(Find_My_Ship_Position( x_pos_receive,y_pos_receive) == true)
 								My_UDP_Str_Send("RES1");
 							else 
@@ -727,53 +753,41 @@ void vTask3( void *pvParameters )
 								{
 								
 									Destroy_My_Ship_XY(x_pos_receive,y_pos_receive);
-									x=0;
-									y=0;
 									My_turn = true;
 									Display_Turn(My_turn);
 								}
 								
 						}
 						
-						if(cmdval[0] == 'w')// && waiting_state == true)
+						if(datarev[0] == 'w' && passstep == true)
 						{
 							waiting_state = false;
 							My_UDP_Str_Send("accepted");
 						}
-						else if(cmdval[0] == 'a')// && setup_state == true)
+						else if(datarev[0] == 'a' && passstep == true)
 						{
-							My_UDP_Str_Send("setup");
-						}
-
-						else if(cmdval[1] == 'e' && setup_state == true)
-						{
-							setup_state = false;
-							//SET UP SHIP HERE
 							Setup_Myship();
-							
-							My_UDP_Str_Send("setup");
-							
-							// ASSUME AFTER SETUP WE PRESS OK TO SEND START
-							My_UDP_Str_Send("start");
-						}
-						
-						else if(cmdval[1] == 'e' && setup_state == false)
-						{
-							My_UDP_Str_Send("start");
-						}
-						
-						else if(cmdval[1] == 't' && setup_state == false)
-						{
-							My_UDP_Str_Send("myturn");
 							My_turn = true;
 							Display_Turn(My_turn);
+							//My_UDP_Str_Send("setup");
 						}
-						
+						else if(datarev[0] == 's' && passstep == true)
+						{
+							Setup_Myship();
+							My_turn = false;
+							Display_Turn(My_turn);
+						}
+						else if(datarev[0] == 'W')
+						{
+							InitLCD_BasicMode();
+							Display_BasicMode("WIN");
+						}
+
 			}
 			
+
+				
 			xSemaphoreGive(xSemaphore);
-      vTaskDelay(1/portTICK_RATE_MS);  
+      vTaskDelay(1000/portTICK_RATE_MS);  
     }
-
-
 }

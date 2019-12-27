@@ -1,22 +1,8 @@
-/*********************************************
- * Author: STLINK
- * IP, Arp, UDP and TCP functions.
- *
- * The TCP implementation uses some size optimisations which are valid
- * only if all data can be sent in one single packet. This is however
- * not a big limitation for a microcontroller as you will anyhow use
- * small web-pages. The TCP stack is therefore a SDP-TCP stack (single data packet TCP).
- *
- * Chip type           : stm32f103c8 with ENC28J60
- *********************************************/
-
 #include "net.h"
+#include "ip_arp_udp_tcp.h"
 #include "ENC28J60.H"
 
 #define  pgm_read_byte(ptr)  ((char)*(ptr))
-
-//#define unsigned char  unsigned char
-//#define unsigned  int unisgned int
 
 //static unsigned char wwwport = 80;
 static unsigned char macaddr[6];

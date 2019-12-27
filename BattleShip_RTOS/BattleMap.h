@@ -1,5 +1,6 @@
 #include "NUC131.h" // Avoid uint8_t errors
 #include <string.h> // Use memcpy (Copy Array to an Array)
+#include <stdbool.h>
 
 // The number are elements inside BattleMap array
 #define Ex0_coor_index 1008
@@ -45,5 +46,8 @@ void Set_Enemy_Ship_XY(uint8_t x_coor,uint8_t y_coor);//(uint8_t position)
 void Destroy_Enemy_Ship_XY(uint8_t x_coor, uint8_t y_coor);
 
 // Count Up or Down XY position on the top right corner
-void Select_XY_Number(uint8_t x, uint8_t y);
+void Display_Select_XY_Number(uint8_t x, uint8_t y);
+
+// Display who will be moved first
+void Display_Turn(bool myturn);
 

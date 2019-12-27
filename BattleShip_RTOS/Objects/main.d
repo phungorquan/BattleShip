@@ -25,8 +25,8 @@
 .\objects\main.o: C:\Keil_v5\ARM\PACK\Nuvoton\NuMicro_DFP\1.3.2\Device\NUC131\StdDriver\inc\CLK.h
 .\objects\main.o: BattleMap.h
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
-.\objects\main.o: ENC28J60.h
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+.\objects\main.o: ENC28J60.h
 .\objects\main.o: ip_arp_udp_tcp.h
 .\objects\main.o: net.h
 .\objects\main.o: FreeRTOSv10.2.1/FreeRTOS/Source/include/FreeRTOS.h
