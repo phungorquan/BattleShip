@@ -1,3 +1,5 @@
+// I comment some function don't use to save MEMORY
+
 
 unsigned int checksum(unsigned char* buf, unsigned  int len, unsigned char type);
 // you must call this function once before you use any of the other functions:

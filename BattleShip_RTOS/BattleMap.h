@@ -1,6 +1,6 @@
 #include "NUC131.h" // Avoid uint8_t errors
 #include <string.h> // Use memcpy (Copy Array to an Array)
-#include <stdbool.h>
+#include <stdbool.h> // Use bool type
 
 // The number are elements inside BattleMap array
 #define Ex0_coor_index 1008
@@ -28,26 +28,32 @@
 #define six_lines 96
 
 
-
-
 // Extern to use this variable inside functions below and can be re-declare inside main.c at the same time 
 extern uint8_t BattleMap[];	
 
 // Create ships symbol by blocks(6x6 pixels) - full fill
-void Set_My_Ship_XY(uint8_t x_coor,uint8_t y_coor);//(uint8_t position)
+void Set_My_Ship_XY(uint8_t x_coor,uint8_t y_coor);
 
 // Create destructions symbol by blocks(6x6 pixels) - 'x'
 void Destroy_My_Ship_XY(uint8_t x_coor, uint8_t y_coor);
 
 // Create ships symbol by blocks(6x6 pixels) - full fill
-void Set_Enemy_Ship_XY(uint8_t x_coor,uint8_t y_coor);//(uint8_t position)
+void Set_Enemy_Ship_XY(uint8_t x_coor,uint8_t y_coor);
 
 // Create destructions symbol by blocks(6x6 pixels) - 'x'
 void Destroy_Enemy_Ship_XY(uint8_t x_coor, uint8_t y_coor);
 
-// Count Up or Down XY position on the top right corner
-void Display_Select_XY_Number(uint8_t x, uint8_t y);
+// Count Up or Down XY position at mid-top 
+void Display_Shoot_XY_Position(uint8_t x, uint8_t y);
 
-// Display who will be moved first
+// Display who can be shot
 void Display_Turn(bool myturn);
 
+// Display ship setup index E.g: 1/1 - 1/3 2/3 3/3 - 1/3 2/3 3/3
+void Display_Setup_NumofShip(uint8_t pos, uint8_t num);
+
+// Display "SETTING SHIP X"
+void Display_Word_SettingShip(void);
+
+// Clear "SETTING SHIP X" buffer and ship setup index
+void Display_None(void);

@@ -260,6 +260,8 @@ uint8_t enc28j60getrev(void);
 void enc28j60PacketSend(uint16_t len, uint8_t* packet);
 uint16_t enc28j60PacketReceive(uint16_t maxlen, uint8_t* packet);
 
+// SPI_WRITE and SPI_READ is Xiu code
+// The others are from the internet 
 void SPI_WRITE(uint8_t data);
 uint8_t SPI_READ(uint8_t dummydata);
 

@@ -4,6 +4,9 @@
 static uint8_t Enc28j60Bank;
 static uint16_t NextPacketPtr;
 
+// SPI_WRITE and SPI_READ is Xiu code
+// The others are from the internet 
+
 void SPI_WRITE(uint8_t data)
 {
 	  /* Write to TX register */
@@ -17,21 +20,14 @@ void SPI_WRITE(uint8_t data)
 
 uint8_t SPI_READ(uint8_t dummydata)
 {
-SPI_WRITE_TX(SPI0, (uint8_t)dummydata);
-/* Trigger SPI data transfer */
-SPI_TRIGGER(SPI0);
-/* Check SPI0 busy status */
-while(SPI_IS_BUSY(SPI0));
-return SPI_READ_RX(SPI0);
+	SPI_WRITE_TX(SPI0, (uint8_t)dummydata);
+	/* Trigger SPI data transfer */
+	SPI_TRIGGER(SPI0);
+	/* Check SPI0 busy status */
+	while(SPI_IS_BUSY(SPI0));
+	return SPI_READ_RX(SPI0);
 }
 
-
-//void delay(int itime){
-//         
-//   int icompTime = 0;
-
-//   for(icompTime=itime*1000;icompTime!=0;icompTime--);
-//}
 
 uint8_t enc28j60ReadOp(uint8_t op, uint8_t address)
 {

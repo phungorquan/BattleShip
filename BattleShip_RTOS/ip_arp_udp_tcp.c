@@ -2,6 +2,8 @@
 #include "ip_arp_udp_tcp.h"
 #include "ENC28J60.H"
 
+// I comment some function don't use to save MEMORY
+
 #define  pgm_read_byte(ptr)  ((char)*(ptr))
 
 //static unsigned char wwwport = 80;

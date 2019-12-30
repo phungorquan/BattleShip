@@ -12,19 +12,17 @@
 #define LCD_D0	PA0
 
 #define LCD_Reset	PA9
-#define LCD_EN 	PA8
-#define LCD_RW 	PA12
+#define LCD_EN 		PA8
+#define LCD_RW 		PA12
 #define LCD_RS_DI	PA13
 
 /* Pin connection : LCD <-> NUC131 (Numaker)
-	
  D7 D6 : F5 F4
  D5->D0 : A5 -> A0
  EN : A8
  RESET : A9
  RW : A12
  RS(DI) :  A13
- 
 */
 
 // TransferData to LCD
