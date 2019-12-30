@@ -1,0 +1,10 @@
+.\objects\freertos_evr.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.0.1\CMSIS\RTOS2\FreeRTOS\Source\freertos_evr.c
+.\objects\freertos_evr.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.0.1\CMSIS\RTOS2\FreeRTOS\Include\freertos_evr.h
+.\objects\freertos_evr.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\freertos_evr.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\freertos_evr.o: E:\1DATA\Slide\HK7\LTNCB\NUMAKER\FreeRTOS\RTE\RTE_Components.h
+.\objects\freertos_evr.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include\cmsis_compiler.h
+.\objects\freertos_evr.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include\cmsis_armcc.h
+.\objects\freertos_evr.o: C:\Keil_v5\ARM\Pack\ARM\CMSIS-FreeRTOS\10.0.1\Source\include\FreeRTOS.h
+.\objects\freertos_evr.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+.\objects\freertos_evr.o: E:\1DATA\Slide\HK7\LTNCB\NUMAKER\FreeRTOS\RTE\RTOS\FreeRTOSConfig.h

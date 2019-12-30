@@ -1,0 +1,28 @@
+--cpu Cortex-M0
+".\objects\port.o"
+".\objects\heap_1.o"
+".\objects\timers.o"
+".\objects\croutine.o"
+".\objects\event_groups.o"
+".\objects\list.o"
+".\objects\queue.o"
+".\objects\tasks.o"
+".\objects\clk.o"
+".\objects\gpio.o"
+".\objects\spi.o"
+".\objects\sys.o"
+".\objects\timer.o"
+".\objects\uart.o"
+".\objects\main.o"
+".\objects\battlemap.o"
+".\objects\lcdst7920.o"
+".\objects\socket.o"
+".\objects\w5500.o"
+".\objects\wizchip_conf.o"
+".\objects\retarget.o"
+".\objects\startup_nuc131.o"
+".\objects\system_nuc131.o"
+--strict --scatter ".\Objects\FreeRTOS.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list ".\Listings\FreeRTOS.map" -o .\Objects\FreeRTOS.axf
